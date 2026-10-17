@@ -1,7 +1,9 @@
-﻿#include "FNTAS_lib.h"
+﻿#include <FNTAS_lib.h>
+#include <fstream>
+#include <iostream>
 
 
-void FNTAS_lib::play_wav_file(LPCWSTR file_name)
+void FNTAS_lib::play_wav_file(LPCSTR file_name)
 {
 	PlaySound(file_name, NULL, SND_FILENAME | SND_ASYNC);
 }
@@ -18,7 +20,7 @@ void FNTAS_lib::window_transparency(bool on_off)
 	}
 }
 
-void FNTAS_lib::window_title(LPCWSTR title)
+void FNTAS_lib::window_title(LPCSTR title)
 {
 	SetConsoleTitle(title);
 }
@@ -43,4 +45,29 @@ void FNTAS_lib::clear()
 	}
 
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
+}
+
+void FNTAS_lib::readFile(std::string filePath, std::string msg) {
+    std::ofstream outFile;
+	outFile.open(filePath);
+
+	if (outFile.is_open()) {
+		outFile << msg << std::endl;
+	}
+	outFile.close(); // закрываем файл, "оканчиваем" работу
+}
+
+void FNTAS_lib::writeFile(std::string filePath) {
+    std::string line;
+	std::ifstream inFile;
+
+	inFile.open(filePath);
+
+	if (inFile.is_open()) {
+		while (std::getline(inFile, line)) {
+			std::cout << line << std::endl;
+		}
+	}
+
+	inFile.close(); // закрываем файл, работа окончена
 }
